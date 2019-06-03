@@ -1,7 +1,10 @@
-unité : 64x64x64 carrotes
+﻿unité : 64x64x64 carrotes
 types de blocs/items:
 -porte
 -dalle de pression
 -coffre
 -levier
 -torches
+
+A Faire :
+-panneaux qui affichent un message en plein quand on les active

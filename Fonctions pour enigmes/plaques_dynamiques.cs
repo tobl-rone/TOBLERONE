@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class reset_plaque_couleur : MonoBehaviour {
+public class plaques_dynamiques : MonoBehaviour {
 
     enum Fonction { Reset, Fin_enigme_couleurs }
-    public Renderer rend;
+    private Renderer rend;
     [SerializeField] string NomFonction;
-    [SerializeField] Texture defaulttexture;
-    [SerializeField] Texture redtext;
-    // Use this for initialization
+    [SerializeField] Texture ownTexture;
+    [SerializeField] Texture defaultTexture;
+    [SerializeField] Texture alternateTexture;
     void Start ()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        rend = GetComponent<Renderer>();
+        rend.material.mainTexture = ownTexture;
+        //rend.material.mainTexture = blutext;
+    }
+
+    void Update ()
+    {
 		
 	}
 
@@ -40,9 +42,7 @@ public class reset_plaque_couleur : MonoBehaviour {
     {
         foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
         {
-            //Do something to ObjectFound, like this:
-            ObjectFound.GetComponent<Renderer>().material.mainTexture = defaulttexture;
-            //rend.material.mainTexture = texture;
+            ObjectFound.GetComponent<Renderer>().material.mainTexture = defaultTexture;
         }
     }
 
@@ -50,23 +50,22 @@ public class reset_plaque_couleur : MonoBehaviour {
     {
 
         bool check = true;
+        bool found = false;
         foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
         {
-            //Do something to ObjectFound, like this:
-            if (ObjectFound.GetComponent<Renderer>().material.mainTexture != redtext)
+            found = true;
+            if (ObjectFound.GetComponent<Renderer>().material.mainTexture != alternateTexture)
             {
                 check = false;
                 break;
             }
-            //rend.material.mainTexture = texture;
         }
-        if (check)
-        {
+        if (check&&found)        {
 
             var truc = GameObject.FindGameObjectWithTag("porte_fermee");
 
-            var rend = truc.GetComponent<Renderer>();
-            rend.material.mainTexture = redtext;
+            var rend_ = truc.GetComponent<Renderer>();
+            rend_.material.mainTexture = alternateTexture;
             foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
             {
                 Destroy(ObjectFound);

@@ -129,6 +129,7 @@ public class plaques_dynamiques : MonoBehaviour
             }
         }
     }
+    //When the plate is touched, it opens the door
     private void Plaque_ouvrir_porte()
     {
         Instantiate(NewDoor, OldDoor.transform.position + Vector3.down, OldDoor.transform.rotation);
@@ -136,9 +137,11 @@ public class plaques_dynamiques : MonoBehaviour
         Destroy(gameObject);
     }
 
+    //checks if all the color plates were touched in the right order; if so, mechanism activates and the plates that compose the puzzle get destroyed, else the puzzle reloads
+    //if less than 5 plates were destroyed, reloads the puzzle
     public void Plaque_ordre()
     {
-
+        //checks if the good number of plates is destroyed
         int nb=0;
         for (int i = 1; i <= 5; i++)
         {
@@ -152,8 +155,7 @@ public class plaques_dynamiques : MonoBehaviour
         {
             if (ordre1 && ordre2 && ordre3 && ordre4 && ordre5)
             {
-                //bon ordre
-
+                //good order
                 var truc = OldDoor;
                 Instantiate(NewDoor, truc.transform.position, truc.transform.rotation);
                 Destroy(OldDoor);
@@ -161,7 +163,7 @@ public class plaques_dynamiques : MonoBehaviour
             }
             else
             {
-                //mauvais ordre
+                //bad order
                 SceneManager.LoadScene(SceneName);                
             }
         }
@@ -170,6 +172,8 @@ public class plaques_dynamiques : MonoBehaviour
 
     }
 
+    //stores the order the plates were touched
+    //to avoid unexpected behavior, the value cannot be changed if the plate involved has been touched in the right order
     public void Ordre_des_plaques(int truc)
     {
         if (truc == 1)
@@ -199,7 +203,6 @@ public class plaques_dynamiques : MonoBehaviour
         }
         else
             Debug.Log("Mauvais argument dans l'appel de Ordre_des_plaques");
-
     }
     
 }

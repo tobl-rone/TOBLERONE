@@ -7,42 +7,38 @@ public class plaques_ordre : MonoBehaviour {
 
     [SerializeField] int number;
     public GameObject PlaqueDeResolution;
-    //public GameObject NewPlate;
     void Start ()
     {
 
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
         
     }
 
+    //calls Ordre_des_plaques in plaques_dynamiques to give the order of the plate touched then destroys the plate
     private void OnCollisionEnter(Collision other)
     {
-        GameObject.Find(PlaqueDeResolution.name).GetComponent<plaques_dynamiques>().Ordre_des_plaques(number);
-   
-        //gameObject.collider.enabled = true;
-        //GetComponent<plaques_ordre>().enabled = false;
-        //other.gameObject.GetComponent<plaques_ordre>().enabled = false;
-        //Instantiate(NewPlate, this.transform.position, this.transform.rotation);
+        GameObject.Find(PlaqueDeResolution.name).GetComponent<plaques_dynamiques>().Ordre_des_plaques(number);   
         Destroy(this.gameObject);
     }
 
+    //Checks if the if the okate was touch in the right order
     public bool IsGoodOrder()
     {
         int nbMort = 5;
         int nbMortAvant = number;
         int test;
+        //checks how many plates were destroyed
         for (int i = 1; i <= 5; i++)
         {
-            //Debug.Log("boucle = " + i);
             if (GameObject.FindGameObjectWithTag("plaque " + i) != null  ? true : false)
             {
                 nbMort--;                
             }
         }
+        //checks how many plates with a lower number than the actual plate were destroyed
         for (int i = 1; i <= number; i++)
         {
             if (GameObject.FindGameObjectWithTag("plaque " + i) != null  ? true : false)
@@ -50,25 +46,14 @@ public class plaques_ordre : MonoBehaviour {
                 nbMortAvant--;
             }
         }
-        //Debug.Log("nbMort = " + nbMort + " || nbMortAvant = " + nbMortAvant);
+
         test = nbMort + 1;
-        //Debug.Log("number = " + number + " || test = " + test);
 
         if (nbMort == nbMortAvant)
             if (number == test)
             {
-                //Debug.Log("Hello");
                 return true;
-            }
-        /*
-        Debug.Log("Nb de plaques activées =  " + nbMort);
-        nbMort ++;
-        if(number == nbMort)
-        {
-            return true;
-        }
-        */
+            }       
         return false;
-        //count how many plate exist then check if the next one is the current one
     }
 }

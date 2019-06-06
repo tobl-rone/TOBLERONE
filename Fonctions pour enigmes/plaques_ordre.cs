@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class plaques_ordre : MonoBehaviour {
 
+    public GameObject NewPlate;
     [SerializeField] int number;
     public GameObject PlaqueDeResolution;
     void Start ()
@@ -21,6 +22,7 @@ public class plaques_ordre : MonoBehaviour {
     private void OnCollisionEnter(Collision other)
     {
         GameObject.Find(PlaqueDeResolution.name).GetComponent<plaques_dynamiques>().Ordre_des_plaques(number);   
+        Instantiate(NewPlate, this.gameObject.transform.position, this.gameObject.transform.rotation);
         Destroy(this.gameObject);
     }
 
@@ -44,6 +46,13 @@ public class plaques_ordre : MonoBehaviour {
             if (GameObject.FindGameObjectWithTag("plaque " + i) != null  ? true : false)
             {
                 nbMortAvant--;
+            }
+        }
+        if(nbMort == 0)
+        {
+            foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("panneau"))
+            {
+                Destroy(ObjectFound);
             }
         }
 

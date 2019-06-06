@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class plaques_dynamiques : MonoBehaviour
 {
 
-    // Fonctions : ResetColor, Fin_enigme_couleurs, Plaque_ouvrir_porte, Plaque_ordre
+    // Fonctions : ResetColor, Fin_enigme_couleurs, Plaque_ouvrir_porte, Plaque_ordre, monstres
     private Renderer rend;
     //Uniquement utilisés pour Fin_enigme_couleurs
     public GameObject PlaqueDeReset;
@@ -77,6 +77,9 @@ public class plaques_dynamiques : MonoBehaviour
             case "Plaque_ordre":
                 Plaque_ordre();
                 break;
+            case "monstres":
+                monstres();
+                break;
             default:
                 Debug.Log("Fonction donnée inconnue");
                 break;
@@ -135,8 +138,15 @@ public class plaques_dynamiques : MonoBehaviour
     //When the plate is touched, it opens the door
     private void Plaque_ouvrir_porte()
     {
+        
         Destroy(OldDoor);
+        Instantiate(NewPlate, gameObject.transform.position, gameObject.transform.rotation);
         Destroy(gameObject);
+        if (GameObject.Find("monstres_qui_tombent") != null)
+        {
+            Instantiate(NewPlate, GameObject.Find("monstres_qui_tombent").transform.position, GameObject.Find("monstres_qui_tombent").transform.rotation);
+            Destroy(GameObject.Find("monstres_qui_tombent"));
+        }
     }
 
     //checks if all the color plates were touched in the right order; if so, mechanism activates and the plates that compose the puzzle get destroyed, else the puzzle reloads
@@ -159,7 +169,8 @@ public class plaques_dynamiques : MonoBehaviour
             {
                 //good order
                 Destroy(OldDoor);
-                Destroy(gameObject);
+                Instantiate(NewPlate, this.gameObject.transform.position, this.gameObject.transform.rotation);
+                Destroy(this.gameObject);
             }
             else
             {
@@ -204,6 +215,14 @@ public class plaques_dynamiques : MonoBehaviour
         else
             Debug.Log("Mauvais argument dans l'appel de Ordre_des_plaques");
     }
-    
+
+    void monstres()
+    {
+        Instantiate(NewPlate, gameObject.transform.position, gameObject.transform.rotation);
+        Destroy(gameObject);
+        Debug.Log("En principe, là il y a des monstres qui tombent");
+    }
+
+
 }
 

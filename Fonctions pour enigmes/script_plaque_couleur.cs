@@ -11,22 +11,19 @@ public class script_plaque_couleur : MonoBehaviour
     public Renderer rend;
     [SerializeField] Texture blutext;
     [SerializeField] Texture redtext;
-    // Use this for initialization
+
     void Start()
     {
-        //color = Color.blue;
         rend = GetComponent<Renderer>();
         rend.material.mainTexture = blutext;
-        //rend.material.color = color;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        //rend.material.color = color;
-        //rend.material.mainTexture = texture;
+
     }
 
+    //changes colors
     void OnCollisionEnter(Collision collision)
     {
         if (rend.material.mainTexture.Equals(redtext))

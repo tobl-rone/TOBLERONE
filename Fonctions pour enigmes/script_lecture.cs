@@ -7,24 +7,24 @@ public class script_lecture : MonoBehaviour {
 
     [SerializeField] Text message;
     [SerializeField] string content;
-
-    // Use this for initialization
+    
     void Start ()
     {
 		
 	}
 	
-	// Update is called once per frame
 	void Update ()
     {
     
 	}
 
+    //displays the message
     void OnTriggerEnter()
     {
         if(content != null)
             message.text = content;
     }
+    //stops displaying the message
     void OnTriggerExit(Collider collision)
     {
         message.text = "";

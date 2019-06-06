@@ -7,20 +7,22 @@ public class plaques_dynamiques : MonoBehaviour
 {
 
     // Fonctions : ResetColor, Fin_enigme_couleurs, Plaque_ouvrir_porte, Plaque_ordre, monstres
+    //Utilisé partout
     private Renderer rend;
     //Uniquement utilisés pour Fin_enigme_couleurs
     public GameObject PlaqueDeReset;
-    //utilisés par toutes les fonctions sauf ResetColor
+    //utilisés par toutes les fonctions sauf ResetColor et monstres
     public GameObject OldDoor;
-    //utilisé par Plaque_ordre
+    //utilisé par Plaque_ordre et Fin_enigmme_couleurs
     [SerializeField] string SceneActuelle;
-
+    //utilisé par Fin_enigme_couleurs, Plaque_ouvrir_porte, Plaque_ordre, monstres
     public GameObject NewPlate;
-    //public GameObject NewPlate;
+
     [SerializeField] string NomFonction;
-    //utilisé dans ResetColor,Fin_enigme_couleurs et Plaque_ouvrir_porte
+
+    //utilisé dans ResetColor,Fin_enigme_couleurs et Plaque_ouvrir_porte, monstres
     [SerializeField] Texture ownTexture;
-    //utilisé par ResetColor, Fin_enigme_couleurs
+    //utilisé par ResetColor
     [SerializeField] Texture defaultTexture;
     //utilisé par Fin_enigme_couleurs
     [SerializeField] Texture alternateTexture;
@@ -32,7 +34,7 @@ public class plaques_dynamiques : MonoBehaviour
     private bool ordre4;
     private bool ordre5;
 
-    
+    //Initialize stuff
     void Start ()
     {       
         rend = GetComponent<Renderer>();
@@ -59,7 +61,7 @@ public class plaques_dynamiques : MonoBehaviour
     {
 
     }
-
+    //chooses the function to use
     public void OnCollisionEnter(Collision collision)
     {
 
@@ -215,7 +217,7 @@ public class plaques_dynamiques : MonoBehaviour
         else
             Debug.Log("Mauvais argument dans l'appel de Ordre_des_plaques");
     }
-
+    //make monsters spawn
     void monstres()
     {
         Instantiate(NewPlate, gameObject.transform.position, gameObject.transform.rotation);

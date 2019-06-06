@@ -48,6 +48,7 @@ public class plaques_ordre : MonoBehaviour {
                 nbMortAvant--;
             }
         }
+        //make the signs disappear
         if(nbMort == 0)
         {
             foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("panneau"))

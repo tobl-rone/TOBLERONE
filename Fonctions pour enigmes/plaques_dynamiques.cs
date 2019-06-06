@@ -109,9 +109,7 @@ public class plaques_dynamiques : MonoBehaviour
     {
         Instantiate(NewDoor, OldDoor.transform.position + Vector3.down, OldDoor.transform.rotation);
         Destroy(OldDoor);
-        Instantiate(NewPlate, GameObject.FindGameObjectWithTag("plaque_porte").transform.position, GameObject.FindGameObjectWithTag("plaque_porte").transform.rotation);
-
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
   
 }

@@ -10,9 +10,12 @@ public class plaques_dynamiques : MonoBehaviour
     private Renderer rend;
     //Uniquement utilisés pour Fin_enigme_couleurs
     public GameObject PlaqueDeReset;
-    //utilisés par toutes les fonctions
+    //utilisés par toutes les fonctions sauf ResetColor
     public GameObject OldDoor;
-    public GameObject NewDoor;
+    //utilisé par Plaque_ordre
+    [SerializeField] string SceneActuelle;
+
+    public GameObject NewPlate;
     //public GameObject NewPlate;
     [SerializeField] string NomFonction;
     //utilisé dans ResetColor,Fin_enigme_couleurs et Plaque_ouvrir_porte
@@ -21,8 +24,7 @@ public class plaques_dynamiques : MonoBehaviour
     [SerializeField] Texture defaultTexture;
     //utilisé par Fin_enigme_couleurs
     [SerializeField] Texture alternateTexture;
-    //utilisé par Plaque_ordre
-    [SerializeField] string SceneName;
+    
     //Uniquement utilisés pour Plaque_ordre
     private bool ordre1;
     private bool ordre2;
@@ -98,6 +100,7 @@ public class plaques_dynamiques : MonoBehaviour
         //checks if all color plates are set to their alternate color (texture)
         foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
         {            
+            Debug.Log("HELLO");
             found = true;
             if (ObjectFound.GetComponent<Renderer>().material.mainTexture != alternateTexture)
             {
@@ -105,34 +108,33 @@ public class plaques_dynamiques : MonoBehaviour
                 break;
             }
         }
+        Debug.Log("check = " + check + " || found = " + found);
         if (check&&found)
         {
-            //replaces the closed door (OldDoor) by the open door (NewDoor)
-            Instantiate(NewDoor, OldDoor.transform.position + Vector3.down, OldDoor.transform.rotation);
+            //destroys places the closed door (OldDoor)
             Destroy(OldDoor);    
-            //changes the Texture of the plate
+            //changes the Texture of the plate            
+            Instantiate(NewPlate, this.gameObject.transform.position, this.gameObject.transform.rotation);
             Destroy(this.gameObject);
-            //destroys the reset plate
+            //destroys the reset plate            
+            Instantiate(NewPlate, PlaqueDeReset.transform.position, PlaqueDeReset.transform.rotation);
             Destroy(PlaqueDeReset);
             //Destroys color plates
             foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
             {
+                Instantiate(NewPlate, ObjectFound.transform.position, ObjectFound.transform.rotation);
                 Destroy(ObjectFound);
             }
         }
         else
         {
-            //reset the color of the color plates
-            foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
-            {
-                ObjectFound.GetComponent<Renderer>().material.mainTexture = defaultTexture;
-            }
+            //puzzle reloads
+            SceneManager.LoadScene(SceneActuelle);           
         }
     }
     //When the plate is touched, it opens the door
     private void Plaque_ouvrir_porte()
     {
-        Instantiate(NewDoor, OldDoor.transform.position + Vector3.down, OldDoor.transform.rotation);
         Destroy(OldDoor);
         Destroy(gameObject);
     }
@@ -156,19 +158,17 @@ public class plaques_dynamiques : MonoBehaviour
             if (ordre1 && ordre2 && ordre3 && ordre4 && ordre5)
             {
                 //good order
-                var truc = OldDoor;
-                Instantiate(NewDoor, truc.transform.position, truc.transform.rotation);
                 Destroy(OldDoor);
                 Destroy(gameObject);
             }
             else
             {
                 //bad order
-                SceneManager.LoadScene(SceneName);                
+                SceneManager.LoadScene(SceneActuelle);                
             }
         }
         else
-            SceneManager.LoadScene(SceneName);
+            SceneManager.LoadScene(SceneActuelle);
 
     }
 

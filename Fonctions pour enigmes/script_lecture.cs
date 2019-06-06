@@ -22,6 +22,7 @@ public class script_lecture : MonoBehaviour {
 
     void OnTriggerEnter()
     {
+        if(content != null)
         message.text = content;
     }
     void OnTriggerExit(Collider collision)

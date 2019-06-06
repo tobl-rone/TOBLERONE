@@ -7,6 +7,7 @@ public class plaques_dynamiques : MonoBehaviour
 
     // Fonctions : ResetColor, Fin_enigme_couleurs, Plaque_ouvrir_porte
     private Renderer rend;
+	public GameObject PlaqueDeReset;
     public GameObject OldDoor;
     public GameObject NewDoor;
     public GameObject NewPlate;
@@ -56,6 +57,7 @@ public class plaques_dynamiques : MonoBehaviour
         }
     }
 
+    //resets the color of color plates
     private void ResetColor()
     {
         foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
@@ -63,14 +65,15 @@ public class plaques_dynamiques : MonoBehaviour
             ObjectFound.GetComponent<Renderer>().material.mainTexture = defaultTexture;
         }
     }
-
+    
+    //checks if all the color plates are set to their alternative color; if so, mechanism activates and the plates doing stuff in the puzzle get destroyed, else resets the color of color plates
     private void Fin_enigme_couleurs()
     {
         bool check = true;
         bool found = false;
+        //checks if all color plates are set to their alternate color (texture)
         foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
-        {
-            
+        {            
             found = true;
             if (ObjectFound.GetComponent<Renderer>().material.mainTexture != alternateTexture)
             {
@@ -78,15 +81,16 @@ public class plaques_dynamiques : MonoBehaviour
                 break;
             }
         }
-
         if (check&&found)
         {
-            
-            var truc = GameObject.FindGameObjectWithTag("porte");
-
-            var rend_ = truc.GetComponent<Renderer>();
-            rend_.material.mainTexture = alternateTexture;
-            rend.material.mainTexture = alternateTexture;
+            //replaces the closed door (OldDoor) by the open door (NewDoor)
+            Instantiate(NewDoor, OldDoor.transform.position + Vector3.down, OldDoor.transform.rotation);
+            Destroy(OldDoor);    
+            //changes the Texture of the plate
+            Destroy(this.gameObject);
+            //destroys the reset plate
+            Destroy(PlaqueDeReset);
+            //Destroys color plates
             foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
             {
                 Destroy(ObjectFound);
@@ -94,6 +98,7 @@ public class plaques_dynamiques : MonoBehaviour
         }
         else
         {
+            //reset the color of the color plates
             foreach (GameObject ObjectFound in GameObject.FindGameObjectsWithTag("plaque_couleur"))
             {
                 ObjectFound.GetComponent<Renderer>().material.mainTexture = defaultTexture;

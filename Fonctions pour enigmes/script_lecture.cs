@@ -30,4 +30,9 @@ public class script_lecture : MonoBehaviour {
         message.text = "";
     }
 
+    private void OnDestroy()
+    {
+        message.text = "";
+    }
+
 }
